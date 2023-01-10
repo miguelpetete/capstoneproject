@@ -16,8 +16,10 @@ def create_app(config_class=Config):
 
     from clapstone.routes import routes
     from clapstone.admins.routes import admins
+    from clapstone.main.routes import main
 
     app.register_blueprint(routes)
     app.register_blueprint(admins)
+    app.register_blueprint(main)
 
     return app

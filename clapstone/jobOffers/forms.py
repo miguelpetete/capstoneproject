@@ -1,10 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired
 
 
 class JobOfferForm(FlaskForm):
-    first_name = StringField("Name", validators=[DataRequired()])
-    surname = StringField("Surname", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    submit = SubmitField("Apply for this job")
+    title = StringField("Title", validators=[DataRequired()])
+    description = StringField("Description", validators=[DataRequired()])
+    requirements = StringField("Requirements", validators=[DataRequired()])
+    postal_code = StringField("Postal Code", validators=[DataRequired()])
+    city = StringField("City", validators=[DataRequired()])
+    submit = SubmitField("Post Offer")

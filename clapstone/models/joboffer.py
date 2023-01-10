@@ -24,6 +24,13 @@ class JobOffer:
         self.requirements = requirements
 
 
-class JobOfferDB(db.Model):  # pylint: disable=too-few-public-methods
+class JobOfferDB(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
+    kind = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
+    requirements = db.Column(db.String(500), nullable=False)
+    postal_code = db.Column(db.String(5), nullable=False)
+    city = db.Column(db.String(30), nullable=False)
+    state_code = db.Column(db.String(3), nullable=False)
+    country_code = db.Column(db.String(2), nullable=False)
