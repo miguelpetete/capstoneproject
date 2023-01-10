@@ -12,7 +12,7 @@ def create_app(config_class=Config):
 
     db.init_app(app)
 
-    Migrate(app, db, compare_type=True)
+    migrate = Migrate(app, db, compare_type=True)  # pylint: disable=unused-variable
 
     from clapstone.routes import routes
     from clapstone.admins.routes import admins
