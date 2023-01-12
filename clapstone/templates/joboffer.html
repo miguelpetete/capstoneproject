@@ -1,10 +1,33 @@
 {% extends "layout.html" %}
 {% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+            <a class="mr-2" href="#">{{ joboffer.city }}</a>
+            </div>
+            <h1><a class="article-title" href="#">{{ joboffer.title }}</a></h1>
+            <p class="article-content">{{ joboffer.description }}</p>
+            <h2>Requirements: </h2>
+            <p class="article-content">{{ joboffer.requirements }}</p>
+        </div>
+    </article>
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Log In</legend>
+                <legend class="border-bottom mb-4">Apply to this offer</legend>
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+                    {{ form.name(class="form-control form-control-lg") }}
+                </div>
+                <div class="form-group">
+                    {{ form.first_surname.label(class="form-control-label") }}
+                    {{ form.first_surname(class="form-control form-control-lg") }}
+                </div>
+                <div class="form-group">
+                    {{ form.second_surname.label(class="form-control-label") }}
+                    {{ form.second_surname(class="form-control form-control-lg") }}
+                </div>
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
@@ -30,10 +53,6 @@
                     {% else %}
                         {{ form.password(class="form-control form-control-lg") }}
                     {% endif %}
-                </div>
-                <div class="form-check">
-                    {{ form.remember(class="form-check-input") }}
-                    {{ form.remember.label(class="form-check-label") }}
                 </div>
             </fieldset>
             <div class="form-group">

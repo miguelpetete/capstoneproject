@@ -1,19 +1,19 @@
+# pylint: skip-file
 import click
-from clapstone.models.person import RecruiterDB
-from clapstone import db
+from flask import Flask
+from flask.cli import with_appcontext
+from .models.person import RecruiterDB
 
 
-@click.group()
-def cli():
-    pass
-
-
-@click.command()
+@with_appcontext
+@click.command("create")
 @click.argument("creator_password")
 @click.argument("name")
 @click.argument("email")
 @click.argument("admin_password")
 def createadmin(creator_password, name, email, admin_password):
+    from . import db
+
     if creator_password != "123abc":
         click.echo("Contraseña incorrecta")
     else:
@@ -22,11 +22,6 @@ def createadmin(creator_password, name, email, admin_password):
             password=admin_password,
             name=name,
         )
-        db.session.add(recruiter)  # pylint: disable=no-member
-        db.session.commit()  # pylint: disable=no-member
-
-
-cli.add_command(createadmin)
-
-if __name__ == "__main__":
-    cli()
+        db.session.add(recruiter)
+        db.session.commit()
+        click.echo("Admin added to database")

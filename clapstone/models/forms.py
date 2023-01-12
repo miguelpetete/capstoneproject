@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, Email
 
 
@@ -10,6 +10,7 @@ class ApplicationForm(FlaskForm):
     )
     second_surname = StringField("Second Surname", validators=[Length(max=50)])
     email = StringField("email", validators=[DataRequired(), Email()])
+    password = PasswordField("password", validators=[DataRequired()])
     submit = SubmitField("Apply for job")
 
     def validate_email(self, email):

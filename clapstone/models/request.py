@@ -25,7 +25,7 @@ class APIRepository:
             self.base_url = self.base_url[:-1]
         response = requests.get(url, params=params, headers=headers, timeout=10)
         if response.status_code == 200:
-            return response.json()
+            return response
         raise Exception(
             f"GET request to {self.base_url} returned status code {response.status_code}"
         )
@@ -33,8 +33,8 @@ class APIRepository:
     def post(self, endpoint, data, headers=None):
         url = self.base_url + endpoint
         response = requests.post(url, json=data, headers=headers, timeout=10)
-        if response.status_code == 200:
-            return response.json()
+        if response.status_code in (200, 201):
+            return response
         raise Exception(
             f"POST request to {self.base_url} returned status code {response.status_code}"
         )
@@ -43,7 +43,7 @@ class APIRepository:
         url = self.base_url + endpoint
         response = requests.put(url, json=payload, headers=headers, timeout=10)
         if response.status_code == 200:
-            return response.json()
+            return response
         raise Exception(
             f"POST request to {self.base_url} returned status code {response.status_code}"
         )

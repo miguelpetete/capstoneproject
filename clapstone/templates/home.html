@@ -1,33 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
-        <div class="text-capitalize text-center">
-          <h1>New job opportunity</h1>
-        </div><br>
+        {% for joboffer in joboffers.items %}
         <article class="media content-section">
             <div class="media-body">
-                <p class="article-content">
-                    <h2>Backend python engineer (MANA software development)</h2>
-                    <p>Code: BE03-345</p>
-                    <h3>Requirements:</h3>
-                    <ul>
-                        <li>Python: 16 years of experience.</li>
-                        <li>Flask: half a century of practise.</li>
-                        <li>Computer Science degree in the NASA with honors.</li>
-                        <li>Able to work 25 hours a day.</li>
-                        <li>No childs, hobbies or distractions.</li>
-                    </ul>
-                    <h3>Salary range: </h3>
-                    <p>From 1€ to 1.5€ per hour</p>
-                    <h3>Job description:</h3>
-                    <p>
-                        We're a new enterprise with no idea what we're doing in the software development world. 
-                        We need someone to help us to center in our careers because we don't know what an integer is.
-                        So, if you wan't to experience our devil's job, don't doubt in complete the following form. 
-                    </p>
-                </p>
-                <br><br>
+              <div class="article-metadata">
+                <a class="mr-2" href="#">{{ joboffer.city }}</a>
+              </div>
+              <h1><a class="article-title" href="{{ url_for('joboffer.view_job', recruitee_id=joboffer.recruitee_id) }}">{{ joboffer.title }}</a></h1>
+              <p class="article-content">{{ joboffer.description }}</p>
+              <h2>Requirements: </h2>
+              <p class="article-content">{{ joboffer.requirements }}</p>
             </div>
-                
-        </article>
-        
+          </article>
+        {% endfor %}
+        {% for page_num in joboffers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if joboffers.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
 {% endblock content %}
