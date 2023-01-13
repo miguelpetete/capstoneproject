@@ -58,6 +58,13 @@ class Candidate(Person):
             "offers": [job_id],
         }
 
+    def get_dictionary(self):
+        d = {
+            "name": self.name + self.first_surname + self.second_surname,
+            "email": self.email,
+        }
+        return d
+
 
 class RecruiterDB(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

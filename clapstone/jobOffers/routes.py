@@ -7,6 +7,7 @@ from clapstone.models.person import CandidateDB, Candidate
 from clapstone import db, bcrypt
 from clapstone.models.request import APIRepository
 from clapstone.models.headers import RequestHeaders
+from clapstone.models.rabbitmq import RabbitMQ
 
 joboffer = Blueprint("joboffer", __name__)
 envs = dotenv_values(".env")
@@ -40,11 +41,12 @@ def view_job(recruitee_id):
         )
         db.session.add(candidatedb)
         db.session.commit()
-        candidate.create_payload(recruitee_id)
-        payload = candidate.payload
         headers = RequestHeaders(str(recruitee_key))
         headers.add_content_type()
-        response = repo.post("/candidates", data=payload, headers=headers.headers)
+        rabbit = RabbitMQ()
+        rabbit.channel.queue_declare(queue="candidates")
+        message = {"candidate": candidate.get_dictionary, "offerid": recruitee_id}
+        rabbit.send_message("", "candidates", json.dumps(message))
         page = request.args.get("page", 1, type=int)
         joboffers = JobOfferDB.query.paginate(page=page, per_page=3)
         flash("You have succesfully apply for this job", "success")
