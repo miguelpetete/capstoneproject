@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 120 
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = 'missing-class-docstring, missing-module-docstring, missing-function-docstring, relative-beyond-top-level, too-few-public-methods'
+
+[tool.pytest.init_options]
+markers = [
+    'unit',
+    'integration',
+    'functional',
+    'slow',
+    'flaky',
+]

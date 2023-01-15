@@ -7,10 +7,17 @@
                 <a class="mr-2" href="#">{{ joboffer.city }}</a>
               </div>
               <h1><a class="article-title" href="{{ url_for('joboffer.view_job', recruitee_id=joboffer.recruitee_id) }}">{{ joboffer.title }}</a></h1>
+              <h2>Description: </h2>
               <p class="article-content">{{ joboffer.description }}</p>
               <h2>Requirements: </h2>
               <p class="article-content">{{ joboffer.requirements }}</p>
             </div>
+            {% if current_user.is_authenticated %}
+              <div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('admins.admin_update', recruitee_id=joboffer.recruitee_id) }}">Update</a>
+                <a class="btn btn-danger btn-sm m-1" href="{{ url_for('admins.admin_delete', recruitee_id=joboffer.recruitee_id) }}">DELETE</a>
+              </div>
+            {% endif %}
           </article>
         {% endfor %}
         {% for page_num in joboffers.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}

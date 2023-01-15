@@ -1,5 +1,6 @@
 # pylint: skip-file
-from flask import render_template, Blueprint, flash, request
+import json
+from flask import render_template, Blueprint, flash, request, redirect, url_for
 from dotenv import dotenv_values
 from clapstone.models.joboffer import JobOfferDB
 from clapstone.models.forms import ApplicationForm
@@ -8,6 +9,8 @@ from clapstone import db, bcrypt
 from clapstone.models.request import APIRepository
 from clapstone.models.headers import RequestHeaders
 from clapstone.models.rabbitmq import RabbitMQ
+from flask_login import current_user, login_required
+from clapstone.jobOffers.forms import JobOfferForm
 
 joboffer = Blueprint("joboffer", __name__)
 envs = dotenv_values(".env")
@@ -45,7 +48,10 @@ def view_job(recruitee_id):
         headers.add_content_type()
         rabbit = RabbitMQ()
         rabbit.channel.queue_declare(queue="candidates")
-        message = {"candidate": candidate.get_dictionary, "offerid": recruitee_id}
+        message = {
+            "candidate": candidate.get_dictionary(),
+            "offers": [str(recruitee_id)],
+        }
         rabbit.send_message("", "candidates", json.dumps(message))
         page = request.args.get("page", 1, type=int)
         joboffers = JobOfferDB.query.paginate(page=page, per_page=3)

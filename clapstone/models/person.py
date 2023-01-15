@@ -5,7 +5,7 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_recruiter(email):
-    return User.query.get(str(email))
+    return RecruiterDB.query.get(str(email))
 
 
 class Person:
@@ -52,7 +52,11 @@ class Candidate(Person):
     def create_payload(self, job_id):
         self.payload = {
             "candidate": {
-                "name": self.name + self.first_surname + self.second_surname,
+                "name": self.name
+                + " "
+                + self.first_surname
+                + " "
+                + self.second_surname,
                 "emails": [self.email],
             },
             "offers": [job_id],
@@ -60,8 +64,8 @@ class Candidate(Person):
 
     def get_dictionary(self):
         d = {
-            "name": self.name + self.first_surname + self.second_surname,
-            "email": self.email,
+            "name": self.name + " " + self.first_surname + " " + self.second_surname,
+            "emails": [self.email],
         }
         return d
 
@@ -76,7 +80,7 @@ class RecruiterDB(db.Model, UserMixin):
     username = db.Column(db.String(50))
 
 
-class CandidateDB(db.Model):
+class CandidateDB(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50))
     password = db.Column(db.String(60))

@@ -2,3 +2,6 @@
 __pycache__/
 .env
 docker-compose.yml
+migrations/
+pyproyect.toml
+setup.cfg
